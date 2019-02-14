@@ -1,0 +1,4 @@
+﻿  main.cpp
+e:\cplusplus_demo\opencv\opencvstudy\hough\main.cpp(20): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\cplusplus_demo\opencv\opencvstudy\hough\main.cpp(21): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  Hough.vcxproj -> E:\Cplusplus_Demo\OPENCV\OpencvStudy\x64\Debug\Hough.exe
