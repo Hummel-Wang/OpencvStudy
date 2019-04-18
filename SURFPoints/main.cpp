@@ -22,10 +22,12 @@ int main()
 	int index = str.rfind("\\");
 	string imageRootPath = str.replace(index, size - index, "\\Images\\");
 	//加载图像
+	Mat srcImage = imread(imageRootPath + "jz001.jpg");
 	Mat srcImage1 = imread(imageRootPath + "jz001.jpg");
 	Mat srcImage2 = imread(imageRootPath + "jz002.jpg");
-	imshow("原始图像", srcImage1);
-	imshow("原始图像", srcImage2);
+	imshow("原始图像", srcImage);
+	//imshow("原始图像", srcImage1);
+	//imshow("原始图像", srcImage2);
 
 #pragma region remap  重映射
 
@@ -47,27 +49,27 @@ INTER_LANCZOS4 -Lanczos插值（逾8×8像素邻域的Lanczos插值）
 第七个参数，const Scalar&类型的borderValue，当有常数边界时使用的值，其有默认值Scalar( )，即默认值为0。*/
 
 		//进行Harris角点检测找出角点
-	//Mat  dstImage;
-	//Mat map_x, map_y;
-	////【2】创建和原始图一样的效果图，x重映射图，y重映射图
-	//dstImage.create(srcImage.size(), srcImage.type());
-	//map_x.create(srcImage.size(), CV_32FC1);
-	//map_y.create(srcImage.size(), CV_32FC1);
+	Mat  dstImage;
+	Mat map_x, map_y;
+	//【2】创建和原始图一样的效果图，x重映射图，y重映射图
+	dstImage.create(srcImage.size(), srcImage.type());
+	map_x.create(srcImage.size(), CV_32FC1);
+	map_y.create(srcImage.size(), CV_32FC1);
 
-	////【3】双层循环，遍历每一个像素点，改变map_x & map_y的值
-	//for (int j = 0; j < srcImage.rows; j++)
-	//{
-	//	for (int i = 0; i < srcImage.cols; i++)
-	//	{
-	//		//改变map_x & map_y的值. 
-	//		map_x.at<float>(j, i) = static_cast<float>(i);
-	//		map_y.at<float>(j, i) = static_cast<float>(srcImage.rows - j);
-	//	}
-	//}
+	//【3】双层循环，遍历每一个像素点，改变map_x & map_y的值
+	for (int j = 0; j < srcImage.rows; j++)
+	{
+		for (int i = 0; i < srcImage.cols; i++)
+		{
+			//改变map_x & map_y的值. 
+			map_x.at<float>(j, i) = static_cast<float>(i);
+			map_y.at<float>(j, i) = static_cast<float>(srcImage.rows - j);
+		}
+	}
 
-	////【4】进行重映射操作
-	//remap(srcImage, dstImage, map_x, map_y, CV_INTER_LINEAR, BORDER_CONSTANT, Scalar(0, 0, 0));
-	//imshow("【程序窗口】", dstImage);
+	//【4】进行重映射操作
+	remap(srcImage, dstImage, map_x, map_y, CV_INTER_LINEAR, BORDER_CONSTANT, Scalar(0, 0, 0));
+	imshow("【程序窗口】", dstImage);
 
 #pragma endregion
 
